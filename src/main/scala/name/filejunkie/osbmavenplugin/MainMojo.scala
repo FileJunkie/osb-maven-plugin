@@ -1,4 +1,4 @@
-package name.filejunkie
+package name.filejunkie.osbmavenplugin
 
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugin.AbstractMojo
