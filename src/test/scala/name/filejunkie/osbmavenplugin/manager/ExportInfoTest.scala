@@ -17,7 +17,7 @@ object ExportInfoTest extends Specification {
 
     "have entities lines written" in {
       val exportInfo = new ExportInfo(new File ("dummy"))
-      val osbEntity = new OSBEntity {
+      val osbEntity = new OSBEntity("") {
         override def writeFile: Unit = {}
         override def exportInfoLine: String = "dummyOSBEntity"
       }
