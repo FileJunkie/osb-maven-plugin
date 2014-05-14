@@ -22,8 +22,8 @@ class MainMojo extends AbstractMojo {
   @Parameter( required =  true )
   var wsdlToURL: Properties = new Properties()
 
-  @Parameter( defaultValue = "Testing Projects")
-  var osbProjectName: String = "Testing Projects"
+  @Parameter( )
+  var osbProjectName: String = ""
 
   @Parameter( required =  true )
   var thisProjectName: String = ""
@@ -37,9 +37,11 @@ class MainMojo extends AbstractMojo {
   override def execute(): Unit = {
     getLog().info("Hello, world.")
 
-    OSBEntity.inputFolder = inputFolder
-    OSBEntity.outputFolder = outputFolder
-    OSBEntity.osbProjectName = osbProjectName
+    OSBEntity.inputFolder = inputFolder.getPath
+    OSBEntity.outputFolder = outputFolder.getPath
+    if(osbProjectName != ""){
+      OSBEntity.osbProjectName = Option(osbProjectName)
+    }
     OSBEntity.thisProjectName = thisProjectName
   }
 }

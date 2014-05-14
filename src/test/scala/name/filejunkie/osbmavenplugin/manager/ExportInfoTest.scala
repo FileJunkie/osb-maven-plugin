@@ -18,13 +18,17 @@ object ExportInfoTest extends Specification {
     "have entities lines written" in {
       val exportInfo = new ExportInfo(new File ("dummy"))
       val osbEntity = new OSBEntity("") {
-        override def writeFile: Unit = {}
-        override def exportInfoLine: String = "dummyOSBEntity"
+        override val representationVersion: String = ""
+        override protected def outputFilePath: String = {""}
+        override protected def outputFileDir: String = {""}
+        override def content: String = ""
+        override val entitiesFolder: Option[String] = None
+        override val dataClass: String = ""
+        override val typeId: String = ""
       }
 
       exportInfo.addOSBEntity(osbEntity)
-
-      exportInfo.exportInfoText.replaceAll("\\s","") must be matching ".*<\\/imp:properties>dummyOSBEntity<\\/xml-fragment>.*"
+      exportInfo.exportInfoText.replaceAll("\\s","") must be matching ".*<\\/imp:properties><imp:exportedItemInfoinstanceId=\"/\"typeId=\"\"xmlns:imp=\"http://www.bea.com/wli/config/importexport\"><imp:properties><imp:propertyname=\"representationversion\"value=\"\"/><imp:propertyname=\"dataclass\"value=\"\"/><imp:propertyname=\"isencrypted\"value=\"false\"/><imp:propertyname=\"jarentryname\"value=\"/.null\"/></imp:properties></imp:exportedItemInfo><\\/xml-fragment>.*"
     }
   }
 }
