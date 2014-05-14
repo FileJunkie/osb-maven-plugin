@@ -12,10 +12,6 @@ class BuildNumber(osbEntityName: String, buildNumber: Option[String]) extends OS
   override protected def outputFilePath: String = OSBEntity.outputFolder + "/" + pathFixed
   override def content: String =
     "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<con:xmlEntry xmlns:con=\"http://www.bea.com/wli/sb/resources/config\">\n" +
-      "    <con:xml-content>&lt;buildNumber>" +
-      (buildNumber match {
-        case Some(s) => s
-        case _ => defaultBuild
-      }) +
+      "    <con:xml-content>&lt;buildNumber>" + buildNumber.getOrElse(defaultBuild) +
       "&lt;/buildNumber></con:xml-content>\n</con:xmlEntry>"
 }
