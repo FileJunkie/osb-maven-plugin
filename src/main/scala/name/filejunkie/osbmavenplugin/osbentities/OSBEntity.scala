@@ -2,20 +2,19 @@ package name.filejunkie.osbmavenplugin.osbentities
 
 import java.io.{PrintWriter, File}
 
-abstract class OSBEntity(osbEntityName: String) {
+abstract class OSBEntity(osbEntityName: String, thisEntityFolder: Option[String]) {
   val representationVersion: String
   val dataClass: String
   val typeId: String
-  val entitiesFolder: Option[String] = None
-  val thisEntityFolder: Option[String] = None
-  val properties = List[String]()
-  val dependencies = List[OSBEntity]()
+  val entitiesFolder: Option[String]
+  val properties: List[String] = Nil
+  lazy val dependencies: Seq[OSBEntity] = Nil
 
   def content: String
-  protected def outputFileDir: String
-  protected def outputFilePath: String
+  protected lazy val outputFileDir: String = OSBEntity.outputFolder + "/" + pathDirOnlyFixed
+  protected lazy val outputFilePath: String = OSBEntity.outputFolder + "/" + pathFixed
 
-  val pathDirOnly = (OSBEntity.osbProjectName match {
+  lazy val pathDirOnly = (OSBEntity.osbProjectName match {
     case Some(s) => s + "/"
     case _ => ""
   }) + OSBEntity.thisProjectName + "/" + (entitiesFolder match {
@@ -25,11 +24,11 @@ abstract class OSBEntity(osbEntityName: String) {
     case Some(s) => s + "/"
     case _ => ""
   })
-  val path = pathDirOnly + osbEntityName
+  lazy val path = pathDirOnly + osbEntityName
 
-  val pathFixed = path.replaceAll(" ", "_") + "." + typeId
-  val pathDirOnlyFixed = pathDirOnly.replaceAll(" ", "_")
-  val extRefPath = typeId + "$" + path.replaceAll(" ", "\\$")
+  lazy val pathFixed = path.replaceAll(" ", "_") + "." + typeId
+  lazy val pathDirOnlyFixed = pathDirOnly.replaceAll(" ", "_")
+  lazy val extRefPath = typeId + "$" + path.replaceAll(" ", "\\$")
 
   def exportInfoLine = {
     val allProperties = properties.foldLeft("")((m: String, n: String) => m + "\n" + n) + "\n"
@@ -57,6 +56,33 @@ abstract class OSBEntity(osbEntityName: String) {
     val writer = new PrintWriter(file)
     writer.write(content)
     writer.close()
+  }
+
+  protected def cutExtension(str: String) = {
+    if(str.contains(".")){
+      str.substring(0, str.lastIndexOf("."))
+    }
+    else{
+      str
+    }
+  }
+
+  protected def mergePath(path1: String, path2: String) = {
+    if(!path2.startsWith("../")){
+      path1 + "/" + path2;
+    }
+    else {
+      var path2tmp = path2
+
+      val path1Components = path1.split("\\/")
+      var componentsAmount = path1Components.length
+      while (path2tmp.startsWith("../") && componentsAmount > 0) {
+        componentsAmount = componentsAmount - 1
+        path2tmp = path2tmp.replaceFirst("\\.\\.\\/", "")
+      }
+
+      (0 until componentsAmount).foreach(i => path1Components(i) + "/") + path2tmp
+    }
   }
 }
 

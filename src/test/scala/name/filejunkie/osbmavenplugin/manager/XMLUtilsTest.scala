@@ -7,7 +7,7 @@ import name.filejunkie.osbmavenplugin.utils.XMLUtils
 
 @RunWith(classOf[JUnitRunner])
 object XMLUtilsTest extends Specification {
-  private val sampleXsd = """<?xml version="1.0" encoding="utf-8"?>
+  val sampleXsd = """<?xml version="1.0" encoding="utf-8"?>
                             |<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:name:filejunkie:domain">
                             |  <xs:import namespace='testNamespace' schemaLocation='../test.xsd' />
                             |  <xs:element name="Address">
@@ -34,6 +34,8 @@ object XMLUtilsTest extends Specification {
                             |    </xs:complexType>
                             |  </xs:element>
                             |</xs:schema>""".stripMargin
+
+  val sampleXsdNoDeps = sampleXsd.replace("<xs:import namespace='testNamespace' schemaLocation='../test.xsd' />", "")
 
   private val sampleWsdl = """<?xml version="1.0"?>
                              |<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
