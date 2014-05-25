@@ -6,7 +6,8 @@ abstract class OSBEntity(osbEntityName: String) {
   val representationVersion: String
   val dataClass: String
   val typeId: String
-  val entitiesFolder: Option[String]
+  val entitiesFolder: Option[String] = None
+  val thisEntityFolder: Option[String] = None
   val properties = List[String]()
   val dependencies = List[OSBEntity]()
 
@@ -18,6 +19,9 @@ abstract class OSBEntity(osbEntityName: String) {
     case Some(s) => s + "/"
     case _ => ""
   }) + OSBEntity.thisProjectName + "/" + (entitiesFolder match {
+    case Some(s) => s + "/"
+    case _ => ""
+  }) + (thisEntityFolder match {
     case Some(s) => s + "/"
     case _ => ""
   })

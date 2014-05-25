@@ -22,7 +22,6 @@ object ExportInfoTest extends Specification {
         override protected def outputFilePath: String = {""}
         override protected def outputFileDir: String = {""}
         override def content: String = ""
-        override val entitiesFolder: Option[String] = None
         override val dataClass: String = ""
         override val typeId: String = ""
       }
