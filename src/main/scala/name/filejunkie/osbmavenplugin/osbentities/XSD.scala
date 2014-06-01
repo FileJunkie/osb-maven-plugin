@@ -10,10 +10,10 @@ class XSD(osbEntityName: String, thisEntityFolder: Option[String]) extends OSBEn
   override val typeId: String = "XMLSchema"
   override val entitiesFolder = Some("Resources")
 
-  var xsdContent: Option[String] = None
+  var fileContent: Option[String] = None
   val inputFileName = OSBEntity.inputFolder + "/" + thisEntityFolder.getOrElse("") + "/" + osbEntityName + ".xsd"
-  lazy val readXsdContent = xsdContent.getOrElse(FileUtils.readFileToString(new File(inputFileName)))
-  lazy val dependenciesLinks = XMLUtils.getDependencies(readXsdContent)
+  lazy val readFileContent = fileContent.getOrElse(FileUtils.readFileToString(new File(inputFileName)))
+  lazy val dependenciesLinks = XMLUtils.getDependencies(readFileContent)
 
   override lazy val dependencies = {
     for(dep <- dependenciesLinks) yield {
@@ -30,6 +30,11 @@ class XSD(osbEntityName: String, thisEntityFolder: Option[String]) extends OSBEn
       new XSD(xsdParams._2, xsdParams._1)
     }
   }
+
+  protected val xml1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<con:schemaEntry xmlns:con=\"http://www.bea.com/wli/sb/resources/config\">\n    <con:schema><![CDATA["
+  protected val xml2 = "]]></con:schema>\n"
+  protected val xml3 = "</con:targetNamespace>\n</con:schemaEntry>"
+
   override def content: String = {
     val depsText = if (!dependenciesLinks.isEmpty){
       "    <con:dependencies>\n" +
@@ -45,13 +50,13 @@ class XSD(osbEntityName: String, thisEntityFolder: Option[String]) extends OSBEn
     }
     else ""
 
-    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<con:schemaEntry xmlns:con=\"http://www.bea.com/wli/sb/resources/config\">\n    <con:schema><![CDATA[" +
-      readXsdContent +
-      "]]></con:schema>\n" +
+    xml1 +
+      readFileContent +
+      xml2 +
     depsText  +
     "    <con:targetNamespace>" +
-    XMLUtils.getNamespace(readXsdContent) +
-      "</con:targetNamespace>\n</con:schemaEntry>"
+    XMLUtils.getNamespace(readFileContent) +
+      xml3
 
   }
 }

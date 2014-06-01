@@ -15,7 +15,7 @@ object WSDLEntityTest extends Specification {
 
     "not be transformed if has no deps" in {
       val wsdl = new WSDL("Domain", Some("Domain_1"))
-      wsdl.wsdlContent = Some(XMLUtilsTest.sampleWsdlNoDeps)
+      wsdl.fileContent = Some(XMLUtilsTest.sampleWsdlNoDeps)
       wsdl.content must_==
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<con:wsdlEntry xmlns:con=\"http://www.bea.com/wli/sb/resources/config\">\n    <con:wsdl><![CDATA[" +
           XMLUtilsTest.sampleWsdlNoDeps +
