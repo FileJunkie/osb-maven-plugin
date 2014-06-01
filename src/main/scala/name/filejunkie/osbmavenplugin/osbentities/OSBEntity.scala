@@ -69,7 +69,7 @@ abstract class OSBEntity(osbEntityName: String, thisEntityFolder: Option[String]
 
   protected def mergePath(path1: String, path2: String) = {
     if(!path2.startsWith("../")){
-      path1 + "/" + path2;
+      path1 + "/" + path2
     }
     else {
       var path2tmp = path2

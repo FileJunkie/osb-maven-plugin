@@ -100,6 +100,8 @@ object XMLUtilsTest extends Specification {
                              |
                              |</wsdl:definitions>""".stripMargin
 
+  val sampleWsdlNoDeps = sampleWsdl.replace("<xsd:import schemaLocation=\"../imported.xsd\" namespace=\"urn:name.filejunkie.imported\" />","")
+
   "XMLUtils object" should {
     "extract namespace from xsd" in {
       XMLUtils.getNamespace(sampleXsd) must_== "urn:name:filejunkie:domain"
