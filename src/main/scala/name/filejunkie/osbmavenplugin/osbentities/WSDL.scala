@@ -1,7 +1,5 @@
 package name.filejunkie.osbmavenplugin.osbentities
 
-import org.apache.commons.io.FileUtils
-import java.io.File
 import name.filejunkie.osbmavenplugin.utils.XMLUtils
 
 class WSDL(osbEntityName: String, thisEntityFolder: Option[String]) extends XSD(osbEntityName, thisEntityFolder){
