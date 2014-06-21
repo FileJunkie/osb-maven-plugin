@@ -12,7 +12,7 @@ class BusinessService(osbEntityName: String, thisEntityFolder: Option[String], u
       |  <ser:coreEntry isProxy="false" isEnabled="true" isAutoPublish="false" xmlns:ser="http://www.bea.com/wli/sb/services">
       |    <ser:description/>
       |    <ser:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType" xmlns:con="http://www.bea.com/wli/sb/services/bindings/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-      |      <con:wsdl ref="""".stripMargin + wsdl.pathFixed + """"/>
+      |      <con:wsdl ref="""".stripMargin + wsdl.path + """"/>
       |      <con:port>
       |        <con:name>""".stripMargin + wsdl.port + """</con:name>
       |        <con:namespace>""".stripMargin + wsdl.namespace +"""</con:namespace>
